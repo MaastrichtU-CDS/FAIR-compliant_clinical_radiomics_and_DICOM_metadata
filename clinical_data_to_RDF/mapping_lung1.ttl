@@ -1,0 +1,403 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix ex: <http://example.com/ns#>.
+@prefix map: <http://mapping.local/>.
+@prefix sty: <http://purl.bioontology.org/ontology/STY/>.
+@prefix sio: <http://semanticscience.org/resource/SIO_>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>.
+@prefix roo: <http://www.cancerdata.org/roo/>.
+@prefix icd: <http://purl.bioontology.org/ontology/ICD10/>.
+@prefix skos: <http://www.w3.org/2008/05/skos#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix uo: <http://purl.obolibrary.org/obo/UO_>.
+@prefix time: <http://www.w3.org/2006/time#>.  
+@prefix MEDDRA: <http://purl.bioontology.org/ontology/MEDDRA/>.
+ 
+
+
+map:basicQuery a rr:LogicalTable;
+    rr:sqlQuery """SELECT 
+    PatientID as id,
+    biological_sex as sex,
+    age_at_diagnosis as age,
+    clinical_t_stage as ctstage,
+    clinical_n_stage as cnstage,
+    clinical_m_stage as cmstage,
+    overall_ajcc_stage as ajccversion,
+    histology as histology,
+    overall_survival_days as overallsurvivaldays,
+    death_status_event as death,
+    ct_sessions as ctscan
+     FROM PBDWHackathon2018;""";
+    rdfs:label "";
+    skos:definition "".
+
+
+###########################################
+# Add patient 
+###########################################
+map:patient a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;
+    rr:subjectMap [
+        rr:template "patient_{id}";
+        rr:class ncit:C16960; 
+    ];
+    rr:predicateObjectMap [
+    rr:predicate roo:P100018; #has_biological_sex
+        rr:objectMap [
+            rr:parentTriplesMap map:biologicalsex;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:has; #has
+        rr:objectMap [
+            rr:parentTriplesMap map:identifier;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100029; #has_finding
+        rr:objectMap [
+            rr:parentTriplesMap map:neoplasm;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100016; #has_age_at_diagnosis
+        rr:objectMap [
+            rr:parentTriplesMap map:ageatdiagnosis;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+    ];
+   rr:predicateObjectMap [
+        rr:predicate roo:has; #hass
+        rr:objectMap [
+            rr:parentTriplesMap map:overallsurvival;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100254; #has_death_finding
+        rr:objectMap [
+            rr:parentTriplesMap map:death;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+         ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:has; #has
+        rr:objectMap [
+            rr:parentTriplesMap map:datacollection;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100024; #has_procedure 
+        rr:objectMap [
+            rr:parentTriplesMap map:ctscan;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";
+            ];
+        ];
+      ].
+###########################################
+# Add biological sex
+###########################################
+
+map:biologicalsex a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;
+    rr:subjectMap [
+        rr:template "patient/{id}/biologicalsex/{sex}";
+        rr:class ncit:C28421; 
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042; #has_value
+        rr:objectMap [
+            rr:column "sex";
+            rr:datatype xsd:string;
+        ];
+    ].  
+
+###########################################
+# Add identifier                                
+###########################################
+map:identifier a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;
+    rr:subjectMap [
+        rr:template "patient/{id}";
+        rr:class ncit:C25364; 
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042; #has_value
+        rr:objectMap [
+            rr:column "id"; 
+            rr:datatype xsd:string;
+        ];
+    ].
+# ###########################################
+# # Add Neoplasm 
+# ###########################################   
+map:neoplasm a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+        rr:template "patient/{id}/neoplasm";
+        rr:class ncit:C3262; 
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100244;#has_T_stage
+        rr:objectMap [
+            rr:parentTriplesMap map:ctstage;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+         ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100242;#has_N_stage
+        rr:objectMap [
+            rr:parentTriplesMap map:cnstage;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+         ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100241;#has_M_stage
+        rr:objectMap [
+            rr:parentTriplesMap map:cmstage;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+         ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100219; #has_AJCC_version
+        rr:objectMap [
+            rr:parentTriplesMap map:ajccversion;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+        ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100021;#has_histology
+        rr:objectMap [
+            rr:parentTriplesMap map:histology;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+        ];
+    ].
+########################################## 
+# Add Clinical T stage                              
+##########################################
+map:ctstage a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/neoplasm/ctstage/{ctstage}";
+            rr:class ncit:C25728;
+     ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;  #has_value
+        rr:objectMap [
+            rr:column "ctstage"; 
+            rr:datatype xsd:integer;
+        ];
+    ].     
+
+# ########################################## 
+# # Add Clinical N stage                              
+# ##########################################
+map:cnstage a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/neoplasm/cnstage/{cnstage}";
+            rr:class ncit:C25580;
+     ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;  #has_value
+        rr:objectMap [
+            rr:column "cnstage"; 
+            rr:datatype xsd:integer;
+        ];
+    ].     
+
+# ########################################## 
+# # Add Clinical M stage                              
+# ##########################################
+map:cmstage a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/neoplasm/cmstage/{cmstage}";
+            rr:class ncit:C25727;
+     ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;  #has_value
+        rr:objectMap [
+            rr:column "cmstage"; 
+            rr:datatype xsd:integer;
+        ];
+    ].     
+########################################## 
+# Add AJCC staging                             
+# ##########################################
+map:ajccversion a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/neoplasm/ajccversion/{ajccversion}";
+            rr:class roo:C100052;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042; #has_value
+        rr:objectMap [
+            rr:column "ajccversion";
+            rr:datatype xsd:string;
+        ];
+   ].
+########################################## 
+# Add Histology                          
+##########################################
+map:histology a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/neoplasm/histology/{histology}";
+            rr:class ncit:C16681;
+        ];
+    rr:predicateObjectMap [
+            rr:predicate roo:P100042;#has_value
+            rr:objectMap [
+                rr:column "histology";
+                rr:datatype xsd:string;
+            ];
+    ].
+# ###########################################
+# # Add age at diagnosis 
+# ###########################################    
+map:ageatdiagnosis a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;
+    rr:subjectMap [
+        rr:template "patient/{id}/ageatdiagnosis/{age}";
+        rr:class roo:C100002; 
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;  #has_value
+        rr:objectMap [
+            rr:column "age"; 
+            rr:datatype xsd:integer;
+        ];
+    ].
+########################################## 
+# Add overall survival                             
+##########################################
+map:overallsurvival a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/overallsurvival/overallsurvivaldays/{overallsurvivaldays}";
+            rr:class roo:overallsurvivaldays;
+     ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100027;#has_unit
+        rr:objectMap [
+            rr:parentTriplesMap map:days;
+            rr:joinCondition [
+                rr:child "id";
+                rr:parent "id";   
+            ];
+         ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;#has_value
+        rr:objectMap [
+            rr:column "overallsurvivaldays"; 
+            rr:datatype xsd:double;
+        ];
+    ].
+    
+# ########################################## 
+# # Add Days                           
+# ##########################################
+map:days a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/days";
+            rr:class ncit:C25301;
+     ].
+# ########################################## 
+# # Add death event                             
+# ##########################################
+map:death a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/death/{death}";
+            rr:class ncit:C28554;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;#has_value
+        rr:objectMap [
+            rr:column "death"; 
+            rr:datatype xsd:string;
+        ];
+    ].
+########################################## 
+#Add Data collection                            
+##########################################
+map:datacollection a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;
+        rr:subjectMap [
+            rr:template "patient/{id}/datacollection/{id}";
+            rr:class ncit:C103159;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100318;#has_data_collection_id
+        rr:objectMap [
+            rr:column "id"; 
+            rr:datatype xsd:string;
+        ];
+    ].
+########################################## 
+# Add ct scan
+##########################################
+
+map:ctscan a rr:TriplesMap;
+    rr:logicalTable map:basicQuery;    
+    rr:subjectMap [
+            rr:template "patient/{id}/ctscan/{ctscan}";
+            rr:class ncit:C29848;
+        ];
+    rr:predicateObjectMap [
+        rr:predicate roo:P100042;#has_value
+        rr:objectMap [
+            rr:column "ctscan"; 
+            rr:datatype xsd:double;
+        ];
+    ].
