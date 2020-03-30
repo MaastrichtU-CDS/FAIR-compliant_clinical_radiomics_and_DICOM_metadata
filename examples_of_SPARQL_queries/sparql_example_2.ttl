@@ -1,0 +1,22 @@
+prefix rr: <http://www.w3.org/ns/r2rml#>
+prefix ex: <http://example.com/ns#>
+prefix map: <http://mapping.local/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+prefix roo: <http://www.cancerdata.org/roo/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix ro: <http://www.radiomics.org/RO/>
+
+SELECT ?featureObj ?patientID  ?paramspace ?discretisationparam ?discretisationAlgorithm ?discretisationAlgorithmValue
+WHERE{ ?patient a ncit:C16960.
+      ?patient roo:P100042 ?patientID.
+      ?patient ro:P00088  ?featureObj FILTER regex(?patientID, "^HN1067").
+      
+      ?featureObj rdf:type  ro:0131.
+      ?featureObj ro:P00578 ?paramspace.
+      ?paramspace ro:P00009 ?discretisationparam.
+      ?discretisationparam ro:P0295212521 ?discretisationAlgorithm.
+      ?discretisationAlgorithm roo:100042 ?discretisationAlgorithmValue.
+     }
+
