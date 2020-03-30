@@ -9,25 +9,24 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix uo: <http://purl.obolibrary.org/obo/UO_>
 prefix ro: <http://www.radiomics.org/RO/>
 
-
-SELECT ?patientID ?Fmorph_vol ?deathStatus ?time ?units
+SELECT ?patientID ?Fmorph_vol ?Funits ?deathStatus ?time ?Tunits
 WHERE {
   ?patient a ncit:C16960. 			#locate objects that are patients (unique ID is C16960 in the NCIT
   ?patient roo:P100042 ?patientID. 	#match patients to a literal value which will be a research study ID
   ?patient ro:P00088  ?featureObj.	#match the same patients to the corresponding objects in the radiomics domain
   
-  ?featureObj roo:100042 ?Fmorph_vol FILTER contains(str(?featureObj), "Fmorph.vol").
+  ?featureObj roo:100042 ?Fmorph_vol; roo:100027 ?Funits FILTER contains(str(?featureObj), "Fmorph.vol").
   									#return only features called "Fmorph.vol" according to IBSI terminology
+  									#retrieve a metadata label indicating if the feature has any associated physical units
   
   ?patient roo:P100254 ?death. 		#locate patients that has a clinical "finding" for death by any cause
   ?death roo:P100042 ?deathStatus.	#retrieve the literal value for the clinical finding as a death status
-  ?patient roo:has ?survivaldayssinceRT.
-  									#retrieve the overall survival time object
-  ?survivaldayssinceRT rdf:type ncit:C125201; roo:P100042 ?time; roo:P100027 ?units.
-  #?units roo:P100042 ?unit.
-  									#obtain the value and the units of the survival time
+  ?patient roo:has ?survivaldayssinceRT.	#retrieve the overall survival time object
+  ?survivaldayssinceRT rdf:type ncit:C125201; roo:P100042 ?time; roo:P100027 ?Tunits.
+  											#obtain the value of the survival time interval
+  											#retrieve a metadata label indicating if the time interval has any associated physical units
   
   FILTER regex(?patientID, "^LUNG1"). #purely for the example, we only consider the patients in the LUNG1 collection
 }
-
 LIMIT 10 							#purely for the example, we have limited the number of rows of output to 10
+
