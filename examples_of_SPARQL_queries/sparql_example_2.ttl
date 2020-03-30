@@ -11,9 +11,10 @@ prefix ro: <http://www.radiomics.org/RO/>
 SELECT ?featureObj ?patientID  ?paramspace ?discretisationparam ?discretisationAlgorithm ?discretisationAlgorithmValue
 WHERE{ ?patient a ncit:C16960.
       ?patient roo:P100042 ?patientID.
-      ?patient ro:P00088  ?featureObj FILTER regex(?patientID, "^HN1067").
+      ?patient ro:P00088  ?featureObj FILTER regex(?patientID, "^HN1067").  #purely for example, we see what features have been calculated on this specific subject
       
-      ?featureObj rdf:type  ro:0131.
+      ?featureObj rdf:type  ro:0131.                #the Radiomics Ontology defines this as a grey-level size zone matrix feature, specifically grey-level nonuniformity
+                                                    #the same feature is called Fszm.glnu according to the IBSI terminology and has the IBSI feature identifier 8QU8.
       ?featureObj ro:P00578 ?paramspace.
       ?paramspace ro:P00009 ?discretisationparam.
       ?discretisationparam ro:P0295212521 ?discretisationAlgorithm.
