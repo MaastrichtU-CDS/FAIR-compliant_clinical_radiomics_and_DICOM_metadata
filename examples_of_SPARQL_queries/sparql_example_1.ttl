@@ -1,0 +1,33 @@
+prefix rr: <http://www.w3.org/ns/r2rml#>
+prefix ex: <http://example.com/ns#>
+prefix sty: <http://purl.bioontology.org/ontology/STY/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+prefix roo: <http://www.cancerdata.org/roo/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix uo: <http://purl.obolibrary.org/obo/UO_>
+prefix ro: <http://www.radiomics.org/RO/>
+
+
+SELECT ?patientID ?Fmorph_vol ?deathStatus ?time ?units
+WHERE {
+  ?patient a ncit:C16960. 			#locate objects that are patients (unique ID is C16960 in the NCIT
+  ?patient roo:P100042 ?patientID. 	#match patients to a literal value which will be a research study ID
+  ?patient ro:P00088  ?featureObj.	#match the same patients to the corresponding objects in the radiomics domain
+  
+  ?featureObj roo:100042 ?Fmorph_vol FILTER contains(str(?featureObj), "Fmorph.vol").
+  									#return only features called "Fmorph_vol" from the IBSI terminology
+  
+  ?patient roo:P100254 ?death. 		#locate patients that has a clinical "finding" for death by any cause
+  ?death roo:P100042 ?deathStatus.	#retrieve the literal value for the clinical finding as a death status
+  ?patient roo:has ?survivaldayssinceRT.
+  									#retrieve the overall survival time object
+  ?survivaldayssinceRT rdf:type ncit:C125201; roo:P100042 ?time; roo:P100027 ?units.
+  #?units roo:P100042 ?unit.
+  									#obtain the value and the units of the survival time
+  
+  FILTER regex(?patientID, "^LUNG1"). #purely for the example, we only consider the patients in the LUNG1 collection
+}
+
+
