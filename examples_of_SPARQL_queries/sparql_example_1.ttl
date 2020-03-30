@@ -30,4 +30,4 @@ WHERE {
   FILTER regex(?patientID, "^LUNG1"). #purely for the example, we only consider the patients in the LUNG1 collection
 }
 
-
+LIMIT 10 							#purely for the example, we have limited the number of rows of output to 10
