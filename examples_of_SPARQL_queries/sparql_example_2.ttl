@@ -19,11 +19,11 @@ WHERE{
   # i.e. https://bioportal.bioontology.org/ontologies/RO/?p=classes&conceptid=http%3A%2F%2Fwww.radiomics.org%2FRO%2FY1RO
   #the same feature is called Fszm.glnu.norm according to the IBSI terminology.
   
-  ?featureObj ro:P00578 ?paramspace.
-  ?paramspace ro:P00009 ?discretisationparam.
-  
+  ?featureObj ro:P00578 ?paramspace. 			#obtain the feature parameter space
+  ?paramspace ro:P00009 ?discretisationparam.	#for each feature parameter space, what intensity discretization algorithm was used
   ?discretisationparam ro:P0295212521 ?discretisationAlgorithm.
+  												#for a given discretization settings, what type of algorithm was used 
   
-  FILTER regex(?patientID, "^HN1067").
+  FILTER regex(?patientID, "^HN1067").			#purely for this example, we artibtrarily selected one subject to examine
 }
 
