@@ -8,16 +8,22 @@ prefix roo: <http://www.cancerdata.org/roo/>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix ro: <http://www.radiomics.org/RO/>
 
-SELECT ?featureObj ?patientID  ?paramspace ?discretisationparam ?discretisationAlgorithm ?discretisationAlgorithmValue
-WHERE{ ?patient a ncit:C16960.
-      ?patient roo:P100042 ?patientID.
-      ?patient ro:P00088  ?featureObj FILTER regex(?patientID, "^HN1067").  #purely for example, we see what features have been calculated on this specific subject
-      
-      ?featureObj rdf:type  ro:0131.                #the Radiomics Ontology defines this as a grey-level size zone matrix feature, specifically grey-level nonuniformity
-                                                    #the same feature is called Fszm.glnu according to the IBSI terminology and has the IBSI feature identifier 8QU8.
-      ?featureObj ro:P00578 ?paramspace.
-      ?paramspace ro:P00009 ?discretisationparam.
-      ?discretisationparam ro:P0295212521 ?discretisationAlgorithm.
-      ?discretisationAlgorithm roo:100042 ?discretisationAlgorithmValue.
-     }
+SELECT DISTINCT ?paramspace ?discretisationparam ?discretisationAlgorithm
+WHERE{
+  ?patient a ncit:C16960.
+  ?patient roo:P100042 ?patientID.
+  ?patient ro:P00088 ?featureObj.
+  
+  ?featureObj rdf:type ro:Y1RO.
+  #the Radiomics Ontology defines "ro:Y1RO" as a grey-level size zone matrix textural feature, specifically grey-level nonuniformity normalized
+  # i.e. https://bioportal.bioontology.org/ontologies/RO/?p=classes&conceptid=http%3A%2F%2Fwww.radiomics.org%2FRO%2FY1RO
+  #the same feature is called Fszm.glnu.norm according to the IBSI terminology.
+  
+  ?featureObj ro:P00578 ?paramspace.
+  ?paramspace ro:P00009 ?discretisationparam.
+  
+  ?discretisationparam ro:P0295212521 ?discretisationAlgorithm.
+  
+  FILTER regex(?patientID, "^HN1067").
+}
 
