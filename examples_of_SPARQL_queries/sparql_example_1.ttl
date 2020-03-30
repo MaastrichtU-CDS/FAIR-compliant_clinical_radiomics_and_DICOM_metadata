@@ -17,7 +17,7 @@ WHERE {
   ?patient ro:P00088  ?featureObj.	#match the same patients to the corresponding objects in the radiomics domain
   
   ?featureObj roo:100042 ?Fmorph_vol FILTER contains(str(?featureObj), "Fmorph.vol").
-  									#return only features called "Fmorph_vol" from the IBSI terminology
+  									#return only features called "Fmorph.vol" according to IBSI terminology
   
   ?patient roo:P100254 ?death. 		#locate patients that has a clinical "finding" for death by any cause
   ?death roo:P100042 ?deathStatus.	#retrieve the literal value for the clinical finding as a death status
