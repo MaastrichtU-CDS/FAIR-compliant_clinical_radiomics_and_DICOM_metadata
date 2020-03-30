@@ -24,8 +24,7 @@ WHERE {
   
     # Get the DICOM series (linked to this study)
     ?study sedi:containsSeries ?series.
-    ?series sedi:ATT0020000E ?seriesUID;
-            sedi:ATT00080060 ?modality FILTER regex(?modality, "^CT$").
+    ?series sedi:ATT0020000E ?seriesUID; sedi:ATT00080060 ?modality FILTER regex(?modality, "^CT$").
     OPTIONAL { ?series sedi:ATT0008103E ?seriesDesc. }
   
   	# Get the radiomics features defined as grey-level size zone matrix non-uniformity normalized (linked to this patient)
