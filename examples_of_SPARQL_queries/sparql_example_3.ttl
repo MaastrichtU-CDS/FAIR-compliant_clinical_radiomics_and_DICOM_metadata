@@ -1,0 +1,51 @@
+prefix rr: <http://www.w3.org/ns/r2rml#>
+prefix ex: <http://example.com/ns#>
+prefix sty: <http://purl.bioontology.org/ontology/STY/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+prefix roo: <http://www.cancerdata.org/roo/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix ro: <http://www.radiomics.org/RO/>
+PREFIX sedi: <http://semantic-dicom.org/dcm#>
+PREFIX seq: <http://semantic-dicom.org/seq#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?patientID ?seriesUID ?modality ?sliceThickness ?featureObj ?Fvalue ?time  ?deathStatus
+WHERE {
+    ?patient rdf:type ncit:C16960.
+    ?patient roo:P100042 ?patientID FILTER regex(?patientID, "^LUNG1-").
+    ?patientSedi sedi:ATT00100020 ?patientID.	 #the patient research ID is used to link across to the DICOM headers
+  
+    # Get DICOM study (linked to this patient)
+    ?patientSedi sedi:hasStudy ?study.
+    ?study sedi:ATT0020000D ?studyUID.
+    OPTIONAL { ?study sedi:ATT00081030 ?studyDesc. }
+  
+    # Get the DICOM series (linked to this study)
+    ?study sedi:containsSeries ?series.
+    ?series sedi:ATT0020000E ?seriesUID;
+            sedi:ATT00080060 ?modality FILTER regex(?modality, "^CT$").
+    OPTIONAL { ?series sedi:ATT0008103E ?seriesDesc. }
+  
+  	# Get the radiomics features defined as grey-level size zone matrix non-uniformity normalized (linked to this patient)
+    ?patient ro:P00088 ?featureObj.
+	?featureObj ro:P00578 ?paramspace; roo:100042 ?Fvalue FILTER regex(str(?paramspace), "FeatureParameterSpace_1$").
+  
+    ?patient roo:P100254 ?death.
+    ?death roo:P100042 ?deathStatus.
+    ?patient roo:has ?survivaldayssinceRT.
+    ?survivaldayssinceRT rdf:type ncit:C125201; roo:P100042 ?time.
+  
+    # Get image objects (image objects or RTStruct objects)
+    ?series ?contains ?image.
+    FILTER (?contains IN (sedi:containsImage, sedi:containsStructureSet)).
+    ?image sedi:ATT00080018 ?sopInstanceUID.
+  	?image sedi:ATT00180050 ?sliceThickness.
+    
+  	# Additional series info (not always available in every combination)
+    ?equipmentObj sedi:isEquipmentOf ?series.
+    OPTIONAL { ?equipmentObj sedi:ATT00080070 ?manufacturer }
+    OPTIONAL { ?equipmentObj sedi:ATT00081090 ?model }    
+}
+LIMIT 100
