@@ -4,7 +4,7 @@ This code repository accompanies a Medicaal Physics Dataset Article titled
 "FAIR-compliant clinical, radiomics and DICOM metadata of public collections
 on The Cancer Imaging Archive (TCIA)" (doi to follow, link to follow).
 
-##Purpose
+## Purpose
 One of the most frequently cited radiomics investigations showed that
 features automatically extracted from routine clinical images could be used in
 prognostic modelling. These images have been made publicly accessible via The
@@ -18,7 +18,7 @@ be more compliant with findable, accessible, interoperable and re-usable (FAIR)
 data management principles.
 
 
-##Acquisition and validation methods
+## Acquisition and validation methods
 Overall survival time intervals were updated using a national citizens registry
 after internal ethics board approval. Spatial offsets of the Primary Gross Tumor
 Volume (GTV) regions of interest (ROIs) associated with the Lung1 CT series were
@@ -33,7 +33,7 @@ in Resource Descriptor Format (RDF), i.e. triples. Example SPARQL queries are
 shared with the reader to use on the online triples archive, which are intended
 to illustrate how to exploit this data submission.
 
-##Data format
+## Data format
 The accumulated RDF data is publicly accessible through a SPARQL endpoint where
 the triples are archived. The endpoint is remotely queried through a graph
 database web application at http://sparql.cancerdata.org. SPARQL queries are
