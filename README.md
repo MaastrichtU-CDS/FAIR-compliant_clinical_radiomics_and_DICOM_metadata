@@ -49,3 +49,15 @@ on their research question. Data interoperability and reusability is supported
 by referencing existing public ontologies. The RDF data is readily findable and
 accessible through the aforementioned link. Scripts used to create the RDF are
 made available through this repository.
+
+## Contents of this repository
+
+### Clinical folder
+The mappings of the clinical data elements, e.g. age, gender, survival time etc.,
+to the Radiation Oncology Ontology (ROO) are given in this folder. Usage is as
+described in the manuscript text. The mapping file (.ttl) is processed in an RDF
+serialization application, such as R2RML (https://www.w3.org/TR/r2rml/) to
+produce the triples as output.
+
+### Radiomics folder
+In this folder, 
