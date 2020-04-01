@@ -82,3 +82,17 @@ content of the file into the query pane. There is an execute button below the
 query pane. The results of the query will then appear below the execute button
 after some time (depending on the complexity of the SPARQL query).
 
+## Corresponding authors
+For additional questions related to this GitLab repository, please get in contact
+the following :
+
+1.  Petros Kalendralis (petros.kalendralis@maastro.nl)
+2.  Zhenwei Shi (zhenwei.shi@maastro.nl)
+3.  Alberto Traverso (alberto.traverso@maastro.nl)
+
+## Presiding senior authors
+1.  Dr Leonard Wee (leonard.wee@maastro.nl)
+2.  Dr Johan van Soest (johan.vansoest@maastro.nl)
+3.  Prof Andre Dekker (andre.dekker@maastro.nl)
+
+
