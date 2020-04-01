@@ -1,8 +1,8 @@
 # FAIR Compliant Clinical Radiomics And DICOM Metadata
 
-This code repository accompanies a Medicaal Physics Dataset Article titled
-"FAIR-compliant clinical, radiomics and DICOM metadata of public collections
-on The Cancer Imaging Archive (TCIA)" (doi to follow, link to follow).
+This code repository accompanies a Medical Physics Dataset Article titled
+"**FAIR-compliant clinical, radiomics and DICOM metadata of public collections
+on The Cancer Imaging Archive (TCIA)**" (doi to follow, link to follow).
 
 ## Purpose
 One of the most frequently cited radiomics investigations showed that
