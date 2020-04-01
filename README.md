@@ -74,6 +74,10 @@ radiomics mapping files (in the archive : D2RQ_mappings.zip) and the serializati
 script (in the archive d2rq-0.8.1.zip). To execute the mapping script, the batch
 file "dump.bat" is provided.
 
-
-
+### Examples of SPARQL queries
+The example queries in the text are provided here as .ttl files for each example.
+To execute the queries, please navigate to the query tab of the SPARQL endpoint that
+we have published () then copy-and-paste the content of the file into the query pane.
+There is an execute button below the query pane. The results of the query will then
+appear below the execute button after some time (depending on the SPARQL query).
 
