@@ -63,7 +63,17 @@ to produce the triples.
 In this folder, a example Python script called "autofill_script.py" is provided that
 parses output from a radiomics extraction application (O-RAW in our case) into a set
 of inter-related tables following the IBSI description. The files
-"feature_parameter_space_disctionary" and "stemname_Pyradiomics_features" are
-needed for the execution of the autofill script.
+"feature_parameter_space_dictionary" and "stemname_PyRadiomicsFeatures_With_Units"
+are needed for the execution of the autofill script.
+
+The results of the auto-filled tables for each of the four TCIA imaging datasets are
+inlcuded in this folder as zip files.
+
+Finally, the mapping of features to RDF via the Radiomics Ontology requires the
+radiomics mapping files (in the archive : D2RQ_mappings.zip) and the serialization
+script (in the archive d2rq-0.8.1.zip). To execute the mapping script, the batch
+file "dump.bat" is provided.
+
+
 
 
