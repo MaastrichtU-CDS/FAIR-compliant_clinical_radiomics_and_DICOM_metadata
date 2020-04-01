@@ -52,12 +52,12 @@ made available through this repository.
 
 ## Contents of this repository
 
-### Clinical folder
-The mappings of the clinical data elements, e.g. age, gender, survival time etc.,
-to the Radiation Oncology Ontology (ROO) are given in this folder. Usage is as
-described in the manuscript text. The mapping file (.ttl) is processed in an RDF
-serialization application, such as R2RML (https://www.w3.org/TR/r2rml/) to
-produce the triples as output.
+### Clinical data mappings folder
+Our proposed mappings for the clinical data elements, e.g. age, gender, survival
+time etc., to the Radiation Oncology Ontology (ROO) are provided in this folder.
+Usage is as described in the manuscript text; the mapping file (.ttl) needs to be
+processed in an RDF serialization application, e.g. R2RML (https://www.w3.org/TR/r2rml/)
+to produce the triples.
 
 ### Radiomics folder
 In this folder, 
