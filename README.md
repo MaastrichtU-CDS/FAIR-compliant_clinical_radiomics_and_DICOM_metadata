@@ -2,7 +2,11 @@
 
 This code repository accompanies a Medical Physics Dataset Article titled
 "**FAIR-compliant clinical, radiomics and DICOM metadata of public collections
-on The Cancer Imaging Archive (TCIA)**" (doi to follow, link to follow).
+on The Cancer Imaging Archive (TCIA)**" (doi to follow, link to follow). The
+RDF metadata referred to in the above article is freely available to use for
+scientific and educational purposes as outlined in the **Creative Commons
+Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)**
+(please refer to https://creativecommons.org/licenses/by-nc/3.0/). 
 
 ## Purpose
 One of the most frequently cited radiomics investigations showed that
