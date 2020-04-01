@@ -77,7 +77,8 @@ file "dump.bat" is provided.
 ### Examples of SPARQL queries
 The example queries in the text are provided here as .ttl files for each example.
 To execute the queries, please navigate to the query tab of the SPARQL endpoint that
-we have published () then copy-and-paste the content of the file into the query pane.
-There is an execute button below the query pane. The results of the query will then
-appear below the execute button after some time (depending on the SPARQL query).
+we have published (http://sparql.cancerdata.org/#query) then copy-and-paste the
+content of the file into the query pane. There is an execute button below the
+query pane. The results of the query will then appear below the execute button
+after some time (depending on the complexity of the SPARQL query).
 
