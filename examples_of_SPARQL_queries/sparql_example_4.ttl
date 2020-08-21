@@ -1,0 +1,30 @@
+PREFIX sedi: <http://semantic-dicom.org/dcm#>
+PREFIX seq: <http://semantic-dicom.org/seq#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+ 
+
+
+select  DISTINCT ?patientID ?study ?seriesUID ?modality ?convolutionKernel
+where {
+    # Get patient & ID
+    ?patient rdf:type sedi:Patient.
+    ?patient sedi:ATT00100020 ?patientID.
+    FILTER regex(?patientID, "^LUNG1").
+
+ # Get study (linked to this patient)
+    ?patient sedi:hasStudy ?study.
+    ?study sedi:ATT0020000D ?studyUID.
+    # Get series (linked to this study)
+    ?study sedi:containsSeries ?series.
+    ?series sedi:ATT0020000E ?seriesUID;
+            sedi:ATT00080060 ?modality.
+
+  # Get image objects (image objects or RTStruct objects)
+    ?series ?contains ?image.
+    FILTER (?contains IN (sedi:containsImage, sedi:containsStructureSet)).
+    ?image sedi:ATT00080018 ?sopInstanceUID.
+    ?image sedi:ATT00181210 ?convolutionKernel.
+}
